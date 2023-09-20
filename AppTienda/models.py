@@ -17,9 +17,17 @@ class Producto(models.Model):
         return f'El {self.nombre} {self.descripcion} {self.precio}'
 
 class Compra(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete= models.CASCADE)
-    productos = models.ManyToManyField(Producto)
+    cliente = models.CharField(max_length=100)
+    productos = models.ManyToManyField(Producto, blank=True)
     cantidad = models.IntegerField(default=0)
 
     def __str__(self):
-      return f'Su compra, Sr(a) {self.cliente.nombre}, es de: {", ".join([producto.nombre for producto in self.productos.all()])} con una cantidad de: {self.cantidad}'
+        return f'El {self.cliente} {self.productos} {self.cantidad}'
+
+
+class Cupon(models.Model):
+    codigo = models.CharField(max_length=50, unique=True)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.codigo

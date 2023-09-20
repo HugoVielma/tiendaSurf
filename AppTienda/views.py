@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from .models import *
-from . forms import ClienteForm, Productos
-# Create your views here.
+from . forms import ClienteForm, CompraCarrito, Productos, CuponForm
 
 
-def inicio(req):
-   return render(req, "inicio.html")
+
 
 def cliente(req):
     return render(req, "cliente.html")
@@ -35,3 +33,23 @@ def registroProducto(req):
        else:
         form = Productos()
        return render(req, 'productos.html', {'form': form})
+
+def registroCompra(req):
+      if req.method == 'POST':
+        form= CompraCarrito(req.POST)
+        if form.is_valid():
+            form.save()
+      else:
+          form = CompraCarrito()
+      return render(req, 'compra.html', {'form': form})
+
+def crear_cupon(req):
+    if req.method == 'POST':
+        form = CuponForm(req.POST)
+        if form.is_valid():
+            form.save()
+         
+    else:
+        form = CuponForm()
+    
+    return render(req, 'compra.html', {'form': form})
